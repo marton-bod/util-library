@@ -1,10 +1,10 @@
 package com.mbod.utils;
 
-import java.util.Collection;
+import java.util.AbstractList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SortedList<T extends Comparable<T>> {
+public class SortedList<T extends Comparable<T>> extends AbstractList<T> implements List<T> {
 
     private final List<T> data;
 
@@ -12,6 +12,12 @@ public class SortedList<T extends Comparable<T>> {
         data = new LinkedList<>();
     }
 
+    @Override
+    public int size() {
+        return data.size();
+    }
+
+    @Override
     public T get(int index) {
         if (index < 0 || index >= data.size()) {
             throw new IndexOutOfBoundsException("Illegal index: " + index);
@@ -19,7 +25,8 @@ public class SortedList<T extends Comparable<T>> {
         return data.get(index);
     }
 
-    public void add(T element) {
+    @Override
+    public boolean add(T element) {
         if (element == null) {
             throw new IllegalArgumentException("Element to be added cannot be null");
         }
@@ -42,13 +49,7 @@ public class SortedList<T extends Comparable<T>> {
         if (!found) {
             data.add(left, element);
         }
-    }
-
-    public void addAll(Collection<T> elements) {
-        if (elements == null) {
-            throw new IllegalArgumentException("Collection cannot be null");
-        }
-        elements.forEach(this::add);
+        return true;
     }
 
     @Override
